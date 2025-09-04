@@ -5,7 +5,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <div className="lg:flex">
             <Sidebar />
-            <main className="bg-gray-200">{children}</main>
+            <main>{children}</main>
         </div>
     );
 }

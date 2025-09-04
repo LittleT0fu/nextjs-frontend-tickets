@@ -1,29 +1,31 @@
 import { UserRole } from "@/context/userRoleContext";
-import { useUserRole } from "@/context/userRoleContext";
 
-interface NavItem {
+export interface NavItem {
     label: string;
     href?: string;
     icon?: React.ReactNode;
-    actions?: () => void;
+    actions?: { type: string; role: UserRole };
 }
 
 export const getNavItems = (userRole: UserRole): NavItem[] => {
-    const { role, setRole } = useUserRole();
-
-    const baseNavItems: NavItem[] = [
-        { label: "Home", href: "/" },
-        { label: "History", href: "/history" },
-    ];
+    const baseNavItems: NavItem[] = [];
 
     const roleSpecificItems = {
         admin: [
             ...baseNavItems,
-            { label: "Switch to Admin", action: () => setRole("admin") },
+            { label: "Home", href: "/" },
+            { label: "History", href: "/history" },
+            {
+                label: "Switch to User",
+                actions: { type: "switchRole", role: "user" as UserRole },
+            },
         ],
         user: [
             ...baseNavItems,
-            { label: "Switch to User", action: () => setRole("user") },
+            {
+                label: "Switch to Admin",
+                actions: { type: "switchRole", role: "admin" as UserRole },
+            },
         ],
     };
 
