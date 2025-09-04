@@ -3,30 +3,31 @@ import { createContext, useContext, useState, ReactNode } from "react";
 
 export type UserRole = "admin" | "user";
 
-interface UserRoleContextProps {
+interface UserContextProps {
     role: UserRole;
     setRole: (role: UserRole) => void;
+    username: string;
+    setUsername: (username: string) => void;
 }
 
-const UserRoleContext = createContext<UserRoleContextProps | undefined>(
-    undefined
-);
+const UserContext = createContext<UserContextProps | undefined>(undefined);
 
-export const UserRoleProvider = ({ children }: { children: ReactNode }) => {
+export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [role, setRole] = useState<UserRole>("user"); //default role
+    const [username, setUsername] = useState<string>("");
 
     return (
-        <UserRoleContext.Provider value={{ role, setRole }}>
+        <UserContext.Provider value={{ role, setRole, username, setUsername }}>
             {children}
-        </UserRoleContext.Provider>
+        </UserContext.Provider>
     );
 };
 
 //custom hook to use the user role context
-export const useUserRole = () => {
-    const context = useContext(UserRoleContext);
+export const useUser = () => {
+    const context = useContext(UserContext);
     if (!context) {
-        throw new Error("useUserRole must be used within a UserRoleProvider");
+        throw new Error("useUser must be used within a UserProvider");
     }
     return context;
 };

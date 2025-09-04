@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
-import { useUserRole, UserRole } from "@/context/userRoleContext";
+import { useUser, UserRole } from "@/context/userContext";
 import { getNavItems, NavItem } from "@/config/navConfig";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
 
 function Sidebar() {
-    const { role, setRole } = useUserRole();
+    const { role, setRole } = useUser();
     const navItems = getNavItems(role);
 
     return (

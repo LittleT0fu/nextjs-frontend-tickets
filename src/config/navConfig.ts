@@ -1,4 +1,4 @@
-import { UserRole } from "@/context/userRoleContext";
+import { UserRole } from "@/context/userContext";
 import { House, LucideIcon, Inbox, RefreshCcw } from "lucide-react";
 export interface NavItem {
     label: string;
