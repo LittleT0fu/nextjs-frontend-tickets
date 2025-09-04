@@ -3,9 +3,9 @@ import Sidebar from "../sidebar/Sidebar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="lg:flex">
+        <div className="flex lg:flex-row flex-col">
             <Sidebar />
-            <main>{children}</main>
+            <main className="flex-1">{children}</main>
         </div>
     );
 }
