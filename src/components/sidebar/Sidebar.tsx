@@ -9,7 +9,7 @@ function Sidebar() {
     const navItems = getNavItems(role);
 
     return (
-        <div className="lg:flex lg:flex-col items-start lg:w-[200px] lg:h-screen flex flex-col gap-4 p-2">
+        <div className="lg:flex lg:flex-col items-start lg:w-[200px] lg:h-screen flex flex-col gap-4 p-2 border-1 border-[#E7E7E7]">
             <div>
                 <h1 className="text-2xl font-bold capitalize px-4">{role}</h1>
             </div>
