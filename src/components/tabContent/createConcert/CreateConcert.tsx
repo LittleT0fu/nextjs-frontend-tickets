@@ -3,8 +3,10 @@ import React from "react";
 import { Save } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { API_URL } from "@/config/Configuraton";
+import { useConcert } from "@/context/concertContext";
 
 export default function CreateConcert() {
+    const { refreshConcertList } = useConcert();
     const [formData, setFormData] = React.useState({
         concertName: "",
         totalSeats: 0,
@@ -57,6 +59,7 @@ export default function CreateConcert() {
 
             if (res.ok) {
                 toast.success("Concert created successfully!");
+                await refreshConcertList();
             } else {
                 const newMessage = data.message.join(",\n");
                 toast.error("Failed to create concert. \n" + newMessage);

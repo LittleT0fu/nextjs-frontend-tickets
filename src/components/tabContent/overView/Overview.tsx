@@ -3,6 +3,7 @@ import { User } from "lucide-react";
 import { useUser, UserRole } from "@/context/userContext";
 import { Trash2, CircleX } from "lucide-react";
 import { API_URL, UserName } from "@/config/Configuraton";
+import { useConcert } from "@/context/concertContext";
 
 import { toast } from "react-hot-toast";
 
@@ -33,26 +34,10 @@ const tempConcertList = [
 
 export default function Overview() {
     const { role } = useUser();
-    const [concertList, setConcertList] = useState<[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const { concertList, isLoading, refreshConcertList } = useConcert();
 
     useEffect(() => {
-        const fetchConcertList = async () => {
-            setIsLoading(true);
-            const res = await fetch(
-                API_URL + `/concerts?userName=${UserName}`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-            const data = await res.json();
-            setConcertList(data);
-            setIsLoading(false);
-        };
-        fetchConcertList();
+        refreshConcertList();
     }, []);
 
     if (isLoading) {
@@ -66,25 +51,78 @@ export default function Overview() {
     return (
         <div className="flex flex-col gap-6">
             {concertList.map((concert) => (
-                <ConcertCard key={concert} concert={concert} role={role} />
+                <ConcertCard
+                    key={concert._id}
+                    concert={concert}
+                    role={role}
+                    onRefresh={refreshConcertList}
+                />
             ))}
         </div>
     );
 }
 
-const ConcertCard = ({ concert, role }: { concert: any; role: UserRole }) => {
+const ConcertCard = ({
+    concert,
+    role,
+    onRefresh,
+}: {
+    concert: any;
+    role: UserRole;
+    onRefresh: () => void;
+}) => {
     const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
-    const handleDelete = () => {
-        toast.success("Concert deleted successfully!");
+    const handleDelete = async () => {
+        const loadingToast = toast.loading("Deleting concert...");
+        const res = await fetch(API_URL + `/concerts/${concert._id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        toast.dismiss(loadingToast);
+        setIsDeleteConfirmOpen(false);
+        if (res.ok) {
+            toast.success("Concert deleted successfully!");
+            await onRefresh();
+        } else {
+            toast.error("Failed to delete concert.");
+        }
     };
 
-    const handleReserve = () => {
-        toast.success("Concert reserved successfully!");
+    const handleReserve = async () => {
+        const loadingToast = toast.loading("Reserving concert...");
+        const res = await fetch(API_URL + `/concerts/${concert._id}/reserve`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        toast.dismiss(loadingToast);
+        if (res.ok) {
+            toast.success("Concert reserved successfully!");
+            await onRefresh();
+        } else {
+            toast.error("Failed to reserve concert.");
+        }
     };
 
-    const handleCancel = () => {
-        toast.success("Concert canceled successfully!");
+    const handleCancel = async () => {
+        const loadingToast = toast.loading("Canceling concert...");
+        const res = await fetch(API_URL + `/concerts/${concert._id}/reserve`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        toast.dismiss(loadingToast);
+        if (res.ok) {
+            toast.success("Concert canceled successfully!");
+            await onRefresh();
+        } else {
+            toast.error("Failed to cancel concert.");
+        }
     };
 
     const buttonStyle =

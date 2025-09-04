@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import { UserProvider } from "@/context/userContext";
+import { ConcertProvider } from "@/context/concertContext";
 import Layout from "@/components/layout/Layout";
 import ToasterProvider from "@/components/ToasterProvider";
 
@@ -32,8 +33,10 @@ export default function RootLayout({
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
                 <UserProvider>
-                    <ToasterProvider />
-                    <Layout>{children}</Layout>
+                    <ConcertProvider>
+                        <ToasterProvider />
+                        <Layout>{children}</Layout>
+                    </ConcertProvider>
                 </UserProvider>
             </body>
         </html>
