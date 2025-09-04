@@ -18,6 +18,7 @@ export const getNavItems = (userRole: UserRole): NavItem[] => {
             {
                 label: "Switch to User",
                 icon: RefreshCcw,
+                href: "/",
                 actions: { type: "switchRole", role: "user" as UserRole },
             },
         ],
@@ -26,6 +27,7 @@ export const getNavItems = (userRole: UserRole): NavItem[] => {
             {
                 label: "Switch to Admin",
                 icon: RefreshCcw,
+                href: "/",
                 actions: { type: "switchRole", role: "admin" as UserRole },
             },
         ],

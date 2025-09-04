@@ -3,6 +3,7 @@ import React from "react";
 import { useUserRole, UserRole } from "@/context/userRoleContext";
 import { getNavItems, NavItem } from "@/config/navConfig";
 import { LogOut } from "lucide-react";
+import Link from "next/link";
 
 function Sidebar() {
     const { role, setRole } = useUserRole();
@@ -49,7 +50,8 @@ const SidebarItem = ({
     setRole: (role: UserRole) => void;
 }) => {
     return (
-        <div
+        <Link
+            href={item.href || ""}
             className="cursor-pointer lg:w-full flex p-2 gap-2 sm:text-sm text-xs hover:bg-[#EAF5F9] rounded-lg"
             onClick={() => {
                 if (item.actions?.type === "switchRole") {
@@ -59,6 +61,6 @@ const SidebarItem = ({
         >
             {item.icon && <item.icon size={16} />}
             <span>{item.label}</span>
-        </div>
+        </Link>
     );
 };
