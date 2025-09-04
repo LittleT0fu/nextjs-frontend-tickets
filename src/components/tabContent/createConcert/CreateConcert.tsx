@@ -1,6 +1,8 @@
+"use client";
 import React from "react";
 import { Save } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { API_URL } from "@/config/APIurl";
 
 export default function CreateConcert() {
     const [formData, setFormData] = React.useState({
@@ -35,16 +37,30 @@ export default function CreateConcert() {
         const loadingToast = toast.loading("Creating concert...");
 
         try {
-            // Simulate API call
-            await new Promise((resolve) => setTimeout(resolve, 2000));
+            const newConcertData = {
+                name: formData.concertName,
+                description: formData.description,
+                seat: Number(formData.totalSeats),
+            };
 
+            // fetch data with backend
+            const res = await fetch(API_URL + "/concerts", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newConcertData),
+            });
+            const data = await res.json();
             // Dismiss loading toast
             toast.dismiss(loadingToast);
 
-            // fetch data with backend
-
-            // Show success toast
-            toast.success("Concert created successfully!");
+            if (res.ok) {
+                toast.success("Concert created successfully!");
+            } else {
+                const newMessage = data.message.join(",\n");
+                toast.error("Failed to create concert. \n" + newMessage);
+            }
 
             // Reset form
             setFormData({ concertName: "", description: "", totalSeats: 0 });
