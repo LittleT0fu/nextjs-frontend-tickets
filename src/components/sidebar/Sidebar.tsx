@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { useUserRole, UserRole } from "@/context/userRoleContext";
 import { getNavItems, NavItem } from "@/config/navConfig";
 
@@ -36,14 +36,15 @@ const SidebarItem = ({
 }) => {
     return (
         <div
-            className="cursor-pointer"
+            className="cursor-pointer flex items-center gap-2"
             onClick={() => {
                 if (item.actions?.type === "switchRole") {
                     setRole(item.actions.role);
                 }
             }}
         >
-            {item.label}
+            {item.icon && <item.icon />}
+            <span>{item.label}</span>
         </div>
     );
 };

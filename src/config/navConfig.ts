@@ -1,9 +1,9 @@
 import { UserRole } from "@/context/userRoleContext";
-
+import { House, LucideIcon, Inbox, RefreshCcw } from "lucide-react";
 export interface NavItem {
     label: string;
     href?: string;
-    icon?: React.ReactNode;
+    icon?: LucideIcon;
     actions?: { type: string; role: UserRole };
 }
 
@@ -13,10 +13,11 @@ export const getNavItems = (userRole: UserRole): NavItem[] => {
     const roleSpecificItems = {
         admin: [
             ...baseNavItems,
-            { label: "Home", href: "/" },
-            { label: "History", href: "/history" },
+            { label: "Home", href: "/", icon: House },
+            { label: "History", href: "/history", icon: Inbox },
             {
                 label: "Switch to User",
+                icon: RefreshCcw,
                 actions: { type: "switchRole", role: "user" as UserRole },
             },
         ],
@@ -24,6 +25,7 @@ export const getNavItems = (userRole: UserRole): NavItem[] => {
             ...baseNavItems,
             {
                 label: "Switch to Admin",
+                icon: RefreshCcw,
                 actions: { type: "switchRole", role: "admin" as UserRole },
             },
         ],
