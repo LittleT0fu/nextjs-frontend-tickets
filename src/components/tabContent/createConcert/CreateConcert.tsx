@@ -1,5 +1,6 @@
 import React from "react";
 import { Save } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 export default function CreateConcert() {
     const [formData, setFormData] = React.useState({
@@ -18,9 +19,42 @@ export default function CreateConcert() {
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Form submitted with data:", formData);
+        // Validate form
+        if (
+            !formData.concertName ||
+            !formData.description ||
+            !formData.totalSeats
+        ) {
+            toast.error("Please fill in all fields");
+            return;
+        }
+
+        // Show loading toast
+        const loadingToast = toast.loading("Creating concert...");
+
+        try {
+            // Simulate API call
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+
+            // Dismiss loading toast
+            toast.dismiss(loadingToast);
+
+            // fetch data with backend
+
+            // Show success toast
+            toast.success("Concert created successfully!");
+
+            // Reset form
+            setFormData({ concertName: "", description: "", totalSeats: 0 });
+        } catch (error) {
+            // Dismiss loading toast
+            toast.dismiss(loadingToast);
+
+            // Show error toast
+            toast.error("Failed to create concert. Please try again.");
+        }
     };
 
     return (

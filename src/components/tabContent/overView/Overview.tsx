@@ -3,6 +3,8 @@ import { User } from "lucide-react";
 import { useUser, UserRole } from "@/context/userContext";
 import { Trash2 } from "lucide-react";
 
+import { toast } from "react-hot-toast";
+
 const tempConcertList = [
     {
         _id: "68b7b18e13e469ac4852c9d2",
@@ -46,6 +48,18 @@ const ConcertCard = ({
     concert: (typeof tempConcertList)[0];
     role: UserRole;
 }) => {
+    const handleDelete = () => {
+        toast.success("Concert deleted successfully!");
+    };
+
+    const handleReserve = () => {
+        toast.success("Concert reserved successfully!");
+    };
+
+    const handleCancel = () => {
+        toast.success("Concert canceled successfully!");
+    };
+
     const buttonStyle =
         "text-white px-3 py-2 rounded-sm flex gap-1 items-center cursor-pointer";
     return (
@@ -66,6 +80,7 @@ const ConcertCard = ({
                 <div id="button-section" className="flex gap-2">
                     {role === "admin" && (
                         <button
+                            onClick={handleDelete}
                             className={`bg-[#E84E4E] hover:bg-[#c73e3e] ${buttonStyle}`}
                         >
                             <Trash2 size={18} strokeWidth={1} />
@@ -76,6 +91,7 @@ const ConcertCard = ({
                         !concert.isUserReserved &&
                         !concert.isSeatFull && (
                             <button
+                                onClick={handleReserve}
                                 className={`bg-[#1692EC] hover:bg-[#1282d4] ${buttonStyle}`}
                             >
                                 Reserve
@@ -83,6 +99,7 @@ const ConcertCard = ({
                         )}
                     {role === "user" && concert.isUserReserved && (
                         <button
+                            onClick={handleCancel}
                             className={`bg-[#E84E4E] hover:bg-[#c73e3e] ${buttonStyle}`}
                         >
                             Cancel
