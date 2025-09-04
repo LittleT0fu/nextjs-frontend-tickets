@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { User } from "lucide-react";
 import { useUser, UserRole } from "@/context/userContext";
-import { Trash2 } from "lucide-react";
+import { Trash2, CircleX } from "lucide-react";
 
 import { toast } from "react-hot-toast";
 
@@ -32,6 +32,7 @@ const tempConcertList = [
 
 export default function Overview() {
     const { role } = useUser();
+
     return (
         <div className="flex flex-col gap-6">
             {tempConcertList.map((concert) => (
@@ -48,6 +49,8 @@ const ConcertCard = ({
     concert: (typeof tempConcertList)[0];
     role: UserRole;
 }) => {
+    const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+
     const handleDelete = () => {
         toast.success("Concert deleted successfully!");
     };
@@ -80,12 +83,52 @@ const ConcertCard = ({
                 <div id="button-section" className="flex gap-2">
                     {role === "admin" && (
                         <button
-                            onClick={handleDelete}
+                            onClick={() => setIsDeleteConfirmOpen(true)}
                             className={`bg-[#E84E4E] hover:bg-[#c73e3e] ${buttonStyle}`}
                         >
                             <Trash2 size={18} strokeWidth={1} />
                             Delete
                         </button>
+                    )}
+                    {isDeleteConfirmOpen && (
+                        <ConfirmDeletePopup>
+                            <div className="flex flex-col gap-4">
+                                <div className="flex justify-center">
+                                    <CircleX
+                                        size={44}
+                                        strokeWidth={2}
+                                        color="white"
+                                        fill="red"
+                                    />
+                                </div>
+                                <div
+                                    id="content-cnfirm-delete"
+                                    className="font-bold flex flex-col justify-center text-center"
+                                >
+                                    <span>Are you sure to delete?</span>
+                                    <span>"{concert.name}"</span>
+                                </div>
+                                <div
+                                    id="button-confirm-delete"
+                                    className="flex gap-2 justify-center"
+                                >
+                                    <button
+                                        onClick={() =>
+                                            setIsDeleteConfirmOpen(false)
+                                        }
+                                        className={`bg-white hover:bg-gray-100 text-black border-1 border-[#C2C2C2]${buttonStyle}`}
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        onClick={handleDelete}
+                                        className={`bg-[#E84E4E] hover:bg-[#c73e3e] ${buttonStyle}`}
+                                    >
+                                        Yes,Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </ConfirmDeletePopup>
                     )}
                     {role === "user" &&
                         !concert.isUserReserved &&
@@ -113,6 +156,16 @@ const ConcertCard = ({
                         </button>
                     )}
                 </div>
+            </div>
+        </div>
+    );
+};
+
+const ConfirmDeletePopup = ({ children }: { children: React.ReactNode }) => {
+    return (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50">
+            <div className="bg-white rounded-2xl shadow-lg p-6 w-96">
+                {children}
             </div>
         </div>
     );

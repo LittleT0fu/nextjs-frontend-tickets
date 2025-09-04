@@ -109,9 +109,10 @@ export default function CreateConcert() {
 
                     <button
                         type="submit"
-                        className="bg-[#1692EC] cursor-pointer text-white px-6 py-2 rounded self-end hover:bg-[#1282d4]"
+                        className="bg-[#1692EC] flex gap-2 items-center cursor-pointer text-white px-6 py-2 rounded self-end hover:bg-[#1282d4]"
                         onClick={handleSubmit}
                     >
+                        <Save size={18} strokeWidth={1} />
                         Save
                     </button>
                 </div>
