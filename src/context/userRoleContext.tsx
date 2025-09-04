@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useContext, useState, ReactNode } from "react";
 
-type UserRole = "admin" | "user";
+export type UserRole = "admin" | "user";
 
 interface UserRoleContextProps {
     role: UserRole;
@@ -22,7 +22,6 @@ export const UserRoleProvider = ({ children }: { children: ReactNode }) => {
     );
 };
 
-
 //custom hook to use the user role context
 export const useUserRole = () => {
     const context = useContext(UserRoleContext);
@@ -31,7 +30,6 @@ export const useUserRole = () => {
     }
     return context;
 };
-
 
 //? How to use
 // "use client";
