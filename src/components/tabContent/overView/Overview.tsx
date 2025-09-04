@@ -47,7 +47,7 @@ const ConcertCard = ({
     role: UserRole;
 }) => {
     const buttonStyle =
-        "text-white px-3 py-2 rounded-sm flex gap-1 items-center";
+        "text-white px-3 py-2 rounded-sm flex gap-1 items-center cursor-pointer";
     return (
         <div
             key={concert._id}
@@ -65,7 +65,9 @@ const ConcertCard = ({
                 </span>
                 <div id="button-section" className="flex gap-2">
                     {role === "admin" && (
-                        <button className={`bg-[#E84E4E] ${buttonStyle}`}>
+                        <button
+                            className={`bg-[#E84E4E] hover:bg-[#c73e3e] ${buttonStyle}`}
+                        >
                             <Trash2 size={18} strokeWidth={1} />
                             Delete
                         </button>
@@ -73,17 +75,23 @@ const ConcertCard = ({
                     {role === "user" &&
                         !concert.isUserReserved &&
                         !concert.isSeatFull && (
-                            <button className={`bg-[#1692EC] ${buttonStyle}`}>
+                            <button
+                                className={`bg-[#1692EC] hover:bg-[#1282d4] ${buttonStyle}`}
+                            >
                                 Reserve
                             </button>
                         )}
                     {role === "user" && concert.isUserReserved && (
-                        <button className={`bg-[#E84E4E] ${buttonStyle}`}>
+                        <button
+                            className={`bg-[#E84E4E] hover:bg-[#c73e3e] ${buttonStyle}`}
+                        >
                             Cancel
                         </button>
                     )}
                     {concert.isSeatFull && (
-                        <button className={`bg-gray-400 ${buttonStyle}`}>
+                        <button
+                            className={`bg-gray-400 cursor-none ${buttonStyle}`}
+                        >
                             Full
                         </button>
                     )}
