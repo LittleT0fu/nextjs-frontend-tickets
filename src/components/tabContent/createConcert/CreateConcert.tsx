@@ -2,7 +2,7 @@
 import React from "react";
 import { Save } from "lucide-react";
 import { toast } from "react-hot-toast";
-import { API_URL } from "@/config/APIurl";
+import { API_URL } from "@/config/Configuraton";
 
 export default function CreateConcert() {
     const [formData, setFormData] = React.useState({

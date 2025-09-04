@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { User } from "lucide-react";
 import { useUser, UserRole } from "@/context/userContext";
 import { Trash2, CircleX } from "lucide-react";
+import { API_URL, UserName } from "@/config/Configuraton";
 
 import { toast } from "react-hot-toast";
 
@@ -32,23 +33,46 @@ const tempConcertList = [
 
 export default function Overview() {
     const { role } = useUser();
+    const [concertList, setConcertList] = useState<[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchConcertList = async () => {
+            setIsLoading(true);
+            const res = await fetch(
+                API_URL + `/concerts?userName=${UserName}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            const data = await res.json();
+            setConcertList(data);
+            setIsLoading(false);
+        };
+        fetchConcertList();
+    }, []);
+
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-full">
+                Loading
+            </div>
+        );
+    }
 
     return (
         <div className="flex flex-col gap-6">
-            {tempConcertList.map((concert) => (
-                <ConcertCard key={concert._id} concert={concert} role={role} />
+            {concertList.map((concert) => (
+                <ConcertCard key={concert} concert={concert} role={role} />
             ))}
         </div>
     );
 }
 
-const ConcertCard = ({
-    concert,
-    role,
-}: {
-    concert: (typeof tempConcertList)[0];
-    role: UserRole;
-}) => {
+const ConcertCard = ({ concert, role }: { concert: any; role: UserRole }) => {
     const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
     const handleDelete = () => {

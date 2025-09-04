@@ -1,5 +1,6 @@
 "use client";
 import { createContext, useContext, useState, ReactNode } from "react";
+import { UserName } from "@/config/Configuraton";
 
 export type UserRole = "admin" | "user";
 
@@ -14,7 +15,7 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [role, setRole] = useState<UserRole>("user"); //default role
-    const [username, setUsername] = useState<string>("");
+    const [username, setUsername] = useState<string>(UserName);
 
     return (
         <UserContext.Provider value={{ role, setRole, username, setUsername }}>
