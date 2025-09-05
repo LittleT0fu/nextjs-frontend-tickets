@@ -98,6 +98,9 @@ const ConcertCard = ({
             headers: {
                 "Content-Type": "application/json",
             },
+            body: JSON.stringify({
+                userName: UserName,
+            }),
         });
         toast.dismiss(loadingToast);
         if (res.ok) {
@@ -115,6 +118,9 @@ const ConcertCard = ({
             headers: {
                 "Content-Type": "application/json",
             },
+            body: JSON.stringify({
+                userName: UserName,
+            }),
         });
         toast.dismiss(loadingToast);
         if (res.ok) {
