@@ -11,7 +11,7 @@
 
 ## 📋 Prerequisites
 
-Before you start, makesure you have the following installed:
+Before you start, make sure you have the following installed:
 
 -   Node.js (version 18 or higher)
 -   npm, yarn, pnpm, or bun package manager
