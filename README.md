@@ -39,6 +39,7 @@ Update the backend URL in the configuration file:
 ```typescript
 // src/config/Configuraton.ts
 export const BASE_BACKEND_URL = "http://localhost:your-backend-port";
+export const UserName = "Username";
 ```
 
 Make sure the `BASE_BACKEND_URL` matches your running backend server.
@@ -73,6 +74,12 @@ src/
 ├── context/              # React Context providers
 └── globals.css           # Global styles
 ```
+
+## Package
+
+-   Tailwind CSS 4 - use for component styling
+-   Lucide React - use for icon
+-   React Hot Toast - use for notification
 
 ## 📝 Features
 
